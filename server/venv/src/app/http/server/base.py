@@ -3,6 +3,7 @@ import tornado.ioloop
 import tornado.httpserver
 import tornado.options
 from common.Scheduler import Scheduler
+from config import config
 
 class ServerBase(object):
 
@@ -21,7 +22,7 @@ class ServerBase(object):
         tornado.options.parse_command_line()
         http_server = tornado.httpserver.HTTPServer(tornado.web.Application(self._apps))
         http_server.bind(self._port, self._host)
-        http_server.start(0) 
+        http_server.start(config.thread) 
         # http_server.listen(self._port, self._host)
         tornado.ioloop.PeriodicCallback(Scheduler.run, 500).start()
         # Scheduler.run(True)
